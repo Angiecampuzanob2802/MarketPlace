@@ -1,0 +1,61 @@
+<!-- Encabezado de la página -->
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Lista de Productos 📱</ion-title>
+        <ion-buttons slot="end">
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <!-- Refresher: permite "halar hacia abajo" para refrescar la lista -->
+    <ion-refresher slot="fixed" (ionRefresh)="refrescarArticulos($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
+    <!-- Indicador de carga mientras se están cargando artículos -->
+    <div *ngIf="isLoading" class="ion-text-center ion-padding">
+        <ion-spinner></ion-spinner>
+        <p>Cargando artículos...</p>
+    </div>
+
+    <!-- Mensaje de error si ocurre algún problema al cargar los artículos -->
+    <div *ngIf="errorMessage" class="ion-text-center ion-padding">
+        <ion-text color="danger">{{errorMessage}}</ion-text>
+    </div>
+
+    <!-- Lista de artículos -->
+    <ion-list *ngIf="articulos.length > 0">
+        <!-- Se recorre el arreglo "articulos" y se muestra uno por uno -->
+        <ion-item *ngFor="let articulo of articulos" (click)="verDetalleProducto(articulo.id_producto)">
+
+            <!-- Miniatura de la imagen si está disponible -->
+            <ion-thumbnail slot="start" *ngIf="articulo.imagen1">
+                <img [src]="articulo.imagen1" [alt]="articulo.nombre">
+            </ion-thumbnail>
+
+            <!-- Detalles del artículo -->
+            <ion-label>
+                <h2>{{articulo.nombre}}</h2>
+                <p>{{articulo.descripcion}}</p>
+                <p><strong>Precio:</strong> ${{articulo.precio | number}}</p>
+                <p><strong>Ubicación:</strong> {{articulo.ubicacion}}</p>
+            </ion-label>
+        </ion-item>
+    </ion-list>
+
+    <!-- SCROLL INFINITO -->
+    <!-- Esta parte permite que, al llegar al final de la lista, se carguen más artículos automáticamente -->
+    <ion-infinite-scroll (ionInfinite)="cargarMasArticulos($event)">
+
+        <!-- Muestra un spinner y un texto mientras se cargan más artículos -->
+        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando más artículos...">
+        </ion-infinite-scroll-content>
+
+    </ion-infinite-scroll>
+
+    <!-- Mensaje si no hay artículos y no se está cargando -->
+    <div *ngIf="articulos.length === 0 && !isLoading" class="ion-text-center ion-padding">
+        <ion-text color="medium">No hay artículos disponibles</ion-text>
+    </div>
+</ion-content>

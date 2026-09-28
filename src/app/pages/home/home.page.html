@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>MarketPlace 💻</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding home-content">
+  <div class="welcome-section" *ngIf="user">
+    <h1>¡Hola {{ user.full_name }}!</h1>
+    <p>Descubre las mejores ofertas y novedades.</p>
+  </div>
+
+  <div class="actions-section">
+    <ion-button class="btn-productos" expand="block" shape="round" size="large" fill="outline" (click)="goToMisProductos()">
+      <ion-icon name="list-outline" slot="start"></ion-icon>
+      Ir a mis productos
+    </ion-button>
+  </div>
+
+  <div>
+    <ion-button class="btn-salir" expand="block" (click)="logout()">
+      <ion-icon name="log-in-outline"></ion-icon>
+      Salir
+    </ion-button>
+  </div>
+</ion-content>
+  <div class="footer">
+    <p>© 2023 MarketPlace. Todos los derechos reservados.</p>
+  </div>
